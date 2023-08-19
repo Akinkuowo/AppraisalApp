@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import './Login.css'
+import '../Login/Login.css'
 import { Link, useNavigate } from 'react-router-dom'
 import { db } from '../../components/Firebase/firebase-config'
-import { collection, doc, getDocs } from 'firebase/firestore'
+import { collection, doc, getDocs, updateDoc } from 'firebase/firestore'
 import Swal from 'sweetalert2'
 
-const Login = () => {
+const ChangePassword = () => {
     const [users, setUsers] = useState([])
     const [email, getEmail] = useState([])
     const [password, getPassword] = useState([])
     const dbcollection = collection(db, "staffs")
+    const userid = localStorage.getItem("userID")
     
         useEffect(() =>{
             const  getUsers  = async () => {
@@ -28,80 +29,63 @@ const Login = () => {
           navigate("/dashboard");
         };
 
-        const redirectAdmin = () => {
-          
-            navigate("/Admindashboard");
-        };
-
-        const redirectTech = () => {
-          
-            navigate("/Techdashboard");
-          };
-
-        const handleLogin = (e) =>{
+        const handleChangePassword = (e) => {
             e.preventDefault();
-            users.map((user) =>{
-                
-                if(user.email === email){
-                    
-                    if(user.password === password){
-                        if(user.type == 'staff'){
-                            localStorage.setItem("userID", user.id)
-                            localStorage.setItem("firstname", user.firstname)
-                            localStorage.setItem("employeeId", user.employeeId)
-                            redirectUser()
-                        }else if(user.type == 'admin'){
-                            localStorage.setItem("userID", user.id)
-                            redirectAdmin()
-                        }else if(user.type == 'tech'){
-                            localStorage.setItem("userID", user.id)
-                            redirectTech()
-                        }
-                      
-                    }else{
-                        Swal.fire({
-                            title: 'Error!',
-                            text: 'Incorrect Password',
-                            icon: 'error',
-                            confirmButtonText: 'Close'
-                          })
-                    }
-                    
-                }
-            })
+            let password = document.getElementById("password").value
+            let comfirmPassword = document.getElementById("comfirmpassword").value
+
+            if(password !== comfirmPassword){
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Password do not match',
+                    icon: 'error',
+                    confirmButtonText: 'Close'
+                  })
+            }else{
+                const userDoc = doc(db, "staffs", userid)
+                const update = {password: password}
+                updateDoc(userDoc, update)
+                Swal.fire({
+                    title: 'Success',
+                    text: 'Password changed Successfully',
+                    icon: 'success',
+                    confirmButtonText: 'Close'
+                  })
+                redirectUser()
+            }
         }
-    
+
   return (
     <div className='popup'>
         <div className="form">
-            <h2>Sign In</h2>
-            <form onSubmit={handleLogin}>
+            <h2>Change Password</h2>
+            <form onSubmit={handleChangePassword}>
                 <div className='form-group'>
-                    <label for="email">Email</label>
+                    <label for="password">Password</label>
                     <input 
                         className="form__field" 
-                        id="email" 
-                        type="email" 
+                        id="password" 
+                        type="password" 
                         name="email" 
-                        placeholder="Enter E-mail"
+                        placeholder="Enter password"
                         onChange={(e) => getEmail(e.target.value)}
                     />
                 </div>
 
                 <div className='form-group'>
-                    <label for="password">Password</label>
+                    <label for="comfirmpassword">Confirm Password</label>
                     <input 
                         type="password" 
                         className="form__field" 
-                        placeholder="Enter Password" 
+                        placeholder="Confirm Password" 
                         name="name" 
-                        id="password" 
+                        id="comfirmpassword" 
                         onChange={(e) => getPassword(e.target.value)}
                     />
                 </div>
 
                 <div className='form-group'>
-                    <button className="form__submit" type="submit"  >Login	</button>
+                    <button className="form__submit" type="submit"  >Change Password</button>
                 </div>
 
                 <div className="col-12 right">
@@ -116,4 +100,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default ChangePassword

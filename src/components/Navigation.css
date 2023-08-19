@@ -7,3 +7,12 @@
     width: 200px;
     margin: 10px auto;
 }
+
+.bg-info1{
+    background: #146e17;
+}
+
+.img{
+    max-width: 40%;
+    height: auto;
+}

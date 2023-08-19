@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import './Navigation.css'
 import logo from './logo.png'
 
-const AdminNavigation = () => {
+const TechNavigation = () => {
   return (
     <nav className="navbar navbar-expand-lg bg-info1 navbar-dark">
     <div className="container-fluid">
@@ -12,9 +12,9 @@ const AdminNavigation = () => {
 
         <ul className="navbar-nav d-flex flex-row me-1">
             <li className="nav-item me-3 me-lg-0">
-                <a className="nav-link text-white" href="#"><i className="fas fa-envelope mx-1"></i>  <Link to="/startAppraisal" className='links'>Start Appraisal</Link></a>
+                <a className="nav-link text-white" href="#"><i className="fas fa-envelope mx-1"></i>  <Link to="/register" className='links'>Create Account</Link></a>
             </li><li className="nav-item me-3 me-lg-0">
-                <a className="nav-link text-white" href="#"><i className="fas fa-envelope mx-1"></i>  <Link to="/resume-appraisal" className='links'>Resume Appraisal</Link></a>
+                <a className="nav-link text-white" href="#"><i className="fas fa-envelope mx-1"></i>  <Link to="/updateAccount" className='links'>Update Appraisal Document</Link></a>
             </li>
             {/* <li className="nav-item me-3 me-lg-0">
                 <a className="nav-link text-white" href="#"><i className="fas fa-cog mx-1"></i> Settings</a>
@@ -38,4 +38,4 @@ const AdminNavigation = () => {
   )
 }
 
-export default AdminNavigation
+export default TechNavigation

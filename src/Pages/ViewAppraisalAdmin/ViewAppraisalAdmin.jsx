@@ -1,0 +1,79 @@
+import React, { useEffect, useState } from 'react'
+import AdminNavigation from '../../components/AdminNavigation'
+import { Link, useNavigate } from 'react-router-dom'
+import { db } from '../../components/Firebase/firebase-config'
+import { collection, doc, getDocs, addDoc } from 'firebase/firestore'
+import './ViewAppraisalAdmin.css'
+
+
+const ViewAppraisalAdmin = () => {
+    const [appraisal, setUsers] = useState([])
+    const dbcollection = collection(db, "Appraisal_Process")
+
+    useEffect(() =>{
+        const  getAppraisal  = async () => {
+            const data = await getDocs(dbcollection)
+            setUsers(data.docs.map((doc) => ({...doc.data(), id: doc.id})))
+            // console.log(data.docs)
+        }
+  
+        getAppraisal()
+    }, [])
+
+    const navigate = useNavigate();
+  
+    const redirectUser = () => {
+      
+      navigate("/startAppraisalProcess");
+    };
+
+    const viewDoc = (reviewID) =>{
+        localStorage.setItem("AppraisalReviewID", reviewID)
+        console.log(reviewID)
+        redirectUser()
+    }
+    
+
+  return (
+    <div>
+         <AdminNavigation />
+         <div className="container">
+            <table class="table">
+                <thead>
+                    <tr>
+                            <th scope="col">Review ID</th>
+                            <th scope="col">Lecturer name</th>
+                            <th scope="col">Lecturer ID</th>
+                            <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {
+                    appraisal.map((appraise) => {
+                        return ( 
+                           
+                            <tr>
+                                <td>{appraise.reviewID}</td>
+                                <td>{appraise.firstname}</td>
+                                <td>{appraise.employeeId}</td>
+                                <td>
+                                    
+                                    <button className='viewButton' onClick={() => {viewDoc(appraise.reviewID)}}>
+                                    View Submited Doument</button>
+                                </td>
+                            </tr>
+                        
+                          )
+                        
+                    })
+                  }
+                    
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+  )
+}
+
+export default ViewAppraisalAdmin

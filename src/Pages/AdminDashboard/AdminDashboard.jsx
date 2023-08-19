@@ -7,15 +7,18 @@ const AdminDashboard = () => {
     <div>
         <AdminNavigation />
         <div className='container'>
-            <div className="row">
-            <div className="col-lg-3"></div>
-            <div className="col-lg-6">
-                <Link to="/start-appraisal" className='links button'>Start Appraisal</Link>
-                <Link to="/resume-appraisal" className='links button'>Resume Appraisal</Link>
-            </div>
-            <div className="col-lg-3"></div>
-            </div>
+        <div className="row">
+          <div className="col-lg-4">
+            <Link to="/ViewStaffDetails" className='links button req-container'>View Staff Details</Link>
+          </div>
+          <div className="col-lg-4">
+            <Link to="/ViewAppraisalAdmin" className='links button req-container'>View Appraisals</Link>
+          </div>
+          <div className="col-lg-4">
+            <Link to="/ViewAllAppraisalScore" className='links button req-container'>View Appraisals Score</Link>
+          </div>
         </div>
+      </div>
     </div>
     
     

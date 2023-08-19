@@ -13,6 +13,7 @@ const Register = () => {
   const [userlastname, setLastName] = useState("")
   const [dept, setDept] = useState("")
   const [pos, setPos] = useState("")
+  const [type, setType] = useState("")
   const [userpassword, setPassword] = useState("")
   const [emailexist, setEmailExist] = useState([])
   const dbcollection = collection(db, "staffs")
@@ -32,11 +33,13 @@ const navigate = useNavigate();
 
 const redirectUser = () => {
   
-  navigate("/");
+  navigate("/Techdashboard");
 };
 
 const createUser = (e) => {
   e.preventDefault();
+  let employeeNumber = Math.floor((Math.random() * 10000) + 10)
+  let employeeId = `UNN/23/${employeeNumber}` 
   
   let currentEmail = []
   for(let i = 0; i < users.length; i++){
@@ -54,12 +57,7 @@ const createUser = (e) => {
     // setEmailExist(currentEmail)
     
   }
-  if(currentEmail === useremail){
-    console.log("yes")
-  }else{
-    console.log("No")
-  }  
-  console.log(`Do something after ${emailexist} has been checked`);
+  
   if(currentEmail == useremail){
     
     Swal.fire({
@@ -70,7 +68,7 @@ const createUser = (e) => {
     })    
    
   }else{
-     addDoc(dbcollection, {firstname: userfirstname, middlename: usermiddlename, lastname: userlastname, deptID: dept, position: pos, email: useremail, password: userpassword})
+     addDoc(dbcollection, {firstname: userfirstname, middlename: usermiddlename, lastname: userlastname, deptID: dept, position: pos, email: useremail, password: userpassword, type: type, employeeId: employeeId})
     Swal.fire({
       title: 'success',
       text: 'registration was Successful',
@@ -81,14 +79,12 @@ const createUser = (e) => {
   }
 }
 
-useEffect(() => {
-  console.log(`Do something after ${emailexist} has been checked`);
-}, [emailexist])
+
 
   return (
     <div className='popup'>
         <div className="form">
-            <h2>Sign Up</h2>
+            <h2>Create User</h2>
             <form onSubmit={createUser}>
               <div className='form-group'>
                   <label for="fn">First Name</label>
@@ -130,12 +126,12 @@ useEffect(() => {
                   <label for="ln">Department</label>
                   <select name="dept" id="depart" className="form__field" onChange={(e) => setDept(e.target.value)} >
                     <option value="none">Select Department</option>
-                    <option value="CS">Computer Science</option>
-                    <option value="Geo">Geology</option>
-                    <option value="PIC">Pure & Industrial Chemistry</option>
-                    <option value="PA">Physics & Astronomy</option>
-                    <option value="Maths">Mathematics</option>
-                    <option value="Stats">Statistics</option>
+                    <option value="001">Computer Science</option>
+                    <option value="002">Geology</option>
+                    <option value="003">Pure & Industrial Chemistry</option>
+                    <option value="004">Physics & Astronomy</option>
+                    <option value="005">Mathematics</option>
+                    <option value="006">Statistics</option>
                   </select>
                   {/* <input className="form__field" id="ln" type="text" name="email" placeholder="Enter Last Name"/> */}
               </div>
@@ -150,6 +146,18 @@ useEffect(() => {
                     <option value="lecturer_1">Lecturer I</option>
                     <option value="lecturer_2">Lecturer II</option>
                     <option value="ass_lect">Assistant Lecturer</option>
+                  </select>
+                  {/* <input className="form__field" id="ln" type="text" name="email" placeholder="Enter Last Name"/> */}
+              </div>
+
+              <div className='form-group'>
+                  <label for="ln">Account Type</label>
+                  <select name="pos" id="type" className="form__field" onChange={(e) => setType(e.target.value)}>
+                    <option value="none">Select Account Type</option>
+                    <option value="staff">Staff</option>
+                    <option value="admin">supervisor</option>
+                    <option value="tech">Tech Team</option>
+                   
                   </select>
                   {/* <input className="form__field" id="ln" type="text" name="email" placeholder="Enter Last Name"/> */}
               </div>
@@ -179,11 +187,6 @@ useEffect(() => {
 
               <div className='form-group'>
                   <button className="form__submit" type="submit">Sign Up	</button>
-              </div>
-
-              <div className="col-12 right">
-                  <p className="create">Already have an account!   <Link to="/" className='link'>Login</Link> </p>
-                  <p className="create"><Link to="/adminRegister" className='link'>Register as an Admin </Link> </p>
               </div>
             </form>
         </div>

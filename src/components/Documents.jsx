@@ -15,7 +15,7 @@ const Documents = () => {
     const reviews = collection(db, "Appraisal_Process")
     const RewiewID = localStorage.getItem("reviewID")
     const navigate = useNavigate();    
-    const imageListRef = ref(store, `${RewiewID}/`)
+    const imageListRef = ref(store, `${RewiewID}/Qualification/`)
 
     const redirectUser = () => {
   
